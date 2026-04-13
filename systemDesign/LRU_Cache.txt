@@ -1,0 +1,111 @@
+#include<iostream>
+#include<list>
+#include<unordered_map>
+
+using namespace std;
+
+//LRU = Least Recently Used
+//When cache is full, remove the item that was used the longest time ago.
+//cache -> A small, fast storage that keeps frequently used data.
+
+//mp = {
+//	1 : iterator---> (1,10) node
+//	2 : iterator---> (2,20) node
+//	3 : iterator---> (3,30) node
+//}
+
+class LRUCache {
+	int capacity;
+
+	//Move an item to front when accessed
+	//Remove least recently used (last element)
+	//Delete any item quickly
+	list < pair<int, int>> dll;
+
+	//here the map doest not stores the value , it store where it is stored in list
+	//this map gives us instant access to the cache items by keys.
+	//Yes, if we don’t use a map, we would have to iterate through the list.
+	unordered_map<int, list<pair<int, int>>::iterator> map;
+
+public:
+	LRUCache(int cap) {
+		capacity = cap;
+	}
+
+	int get(int key) {
+
+		//if the key is not present
+		if (map.find(key) == map.end()) {
+			return -1;
+		}
+
+		auto node = map[key]; // iterator to the node in list
+		int value = node->second; //get the value of that node
+
+		dll.erase(node);
+		dll.push_front({ key, value });
+
+		map[key] = dll.begin();    // update iterator in map
+
+		return value;
+
+		//for example
+		//(4,400) (3,300) (2,200)
+		//get(3);
+		//(3,300) ->remove or erased
+		//(4,400) (2,200)
+		//(3,300) (4,400) (2,200) // when we access something in LRU , it become the most recent one
+
+	}
+	void put(int key, int value) {
+		//Front →(3) < -> (2) < -> (1)  ← Back
+		if (map.find(key) != map.end()) {
+			dll.erase(map[key]);
+				
+			//if (3,2,1) is the list
+			//and if we put(2,newvalue)
+			//we first erase 2 so list is (3,1)
+			//and then we push (2,newvalue) -> so list become (2,3,1)
+		}
+		else if (dll.size() == capacity) {
+			//This is where the cache removes the Least Recently Used item.
+			// when capacity is of 3 and we have full capacity
+			//Front → (3,300) (2,200) (1,100) ← Back
+			//so if we call put(4,newvalue)
+			auto last = dll.back(); //gets the last element which is (1,100)
+			map.erase(last.first);//we remove the the key 1 from hash map
+			dll.pop_back(); //remove the last node
+			//then we add (4,newvalue)
+			//(4,3,2)
+		}
+
+		dll.push_front({ key, value });
+		map[key] = dll.begin(); //example -> map[4] = iterator to (4,400) 
+		//If someone asks for key 4, go directly to that node in the list.
+
+	}
+
+	void printCache() {
+
+		for (auto p : dll) {
+			cout << "[" << p.first << ":" << p.second << "] ";
+		}
+		cout << endl;
+	}
+
+
+};
+int main(void) {
+	LRUCache cache(3);
+
+	cache.put(1, 10);
+	cache.put(2, 20);
+	cache.put(3, 30);
+	cache.printCache();
+	cache.get(2);
+	cache.printCache();
+
+	cache.put(4, 40); 
+	cache.printCache();
+	return 0;
+}
