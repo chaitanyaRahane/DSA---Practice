@@ -1,0 +1,41 @@
+#include<iostream>
+
+using namespace std;
+
+void selectionSort(int arr[], int size) {
+
+	for (int i = 0; i < size - 1; i++) {
+		int minIndex = i;
+		for (int j = i + 1; j < size; j++) {
+			if (arr[j] < arr[minIndex]) {
+				minIndex = j;
+			}
+
+			swap(arr[i], arr[minIndex]);
+		}
+	}
+
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << endl;
+	}
+
+	//1st interation of i => i = 0 , size = 2 and minIndex = 0
+	//1st iteration of j =>  j = 1 , size 3 
+	//result = 7,8,6 and minIndex = 1
+
+	//2nd iteration of j => j = 2 ,size = 3 and minIndex = 1
+	// result = 6,8,7
+
+	//2d iteration of i => i = 1 , minIndex = 1 
+	//3rd ieration of j => j = 2 
+	//result 6,7,8
+}
+int main(void) {
+	int arr[] = { 8,7,6 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	selectionSort(arr, size);
+
+
+	return 0;
+}
