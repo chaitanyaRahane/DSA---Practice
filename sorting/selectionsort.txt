@@ -1,0 +1,35 @@
+#include<iostream>
+
+using namespace std;
+void ourswap(int arr1[], int arr2[]);
+
+void selectionSort(int arr[], int size) {
+
+	//it is size-1 coz the last element must be sorted so no need to check that
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = i + 1; j < size; j++) {
+			if (arr[i] > arr[j]) {
+				ourswap(&arr[i], &arr[j]);
+			}
+		}
+	}
+
+	for (int k = 0; k < size; k++)
+	{
+		cout << arr[k] << endl;
+	}
+}
+void ourswap(int arr1[],int arr2[]) {
+	int temp = *arr1;
+	*arr1 = *arr2;
+	*arr2 = temp;
+}
+int main(void) {
+
+	int arr[] = {5,4,3,2,1};
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	selectionSort(arr, size);
+
+	return 0;
+}

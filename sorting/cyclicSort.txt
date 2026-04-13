@@ -1,0 +1,31 @@
+#include<iostream>
+
+using namespace std;
+
+//cyclic sort
+//the number must in a range of 1 to 5 for this example atleast
+void cyclicSort(int arr[], int size) {
+	int i = 0;
+
+	while (i < size) {
+		int correctIndex = arr[i] - 1;
+
+		if (arr[i] != arr[correctIndex]) {
+			swap(arr[i], arr[correctIndex]);
+		}
+		else {
+			i++;
+		}
+	}
+
+	for (int i = 0; i < size; i++)
+		cout << arr[i] << endl;
+}
+int main(void) {
+
+	int arr[] = {5,4,3,2,1};
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	cyclicSort(arr, size);
+	return 0;
+}

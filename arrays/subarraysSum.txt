@@ -1,0 +1,46 @@
+#include<iostream>
+
+using namespace std;
+
+void subarraySum(int arr[], int size, int k) {
+
+	for (int i = 0; i <= size - k; i++) {
+		int subsum = 0;
+
+		for (int j = i; j < i + k; j++) {
+			subsum += arr[j];
+		}
+		cout << subsum << endl;
+	}
+}
+void subarraySum_SliddingWindow(int arr[],int size,int k) {
+
+	int start = 0;
+	int subSum = 0;
+	int max = 0;
+	//time complexity is good compared to above example
+	for (int i = 0; i < size; i++) {
+		subSum += arr[i];
+
+		if (i >= k - 1) {
+			cout << subSum << endl;
+
+			if(max < subSum)
+			max = subSum;
+
+			subSum -= arr[start];
+			start++;
+		}
+	}
+	cout << max << endl;
+}
+int main(void) {
+
+	int arr[] = { 1,2,3,4,5,6,7,8,9 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	subarraySum_SliddingWindow(arr, size, 3);
+
+
+	return 0;
+}

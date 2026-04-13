@@ -1,0 +1,83 @@
+#include<iostream>
+#define size 5
+using namespace std;
+
+class Hashing {
+	int arr[size] = {};
+public:
+	//initializing every element to -1
+	Hashing() {
+		for (int i = 0; i < size; i++) {
+			arr[i] = -1;
+		}
+	}
+	int insert(int value) {
+
+		int key = value % size;
+		int index = key;
+
+		while (this->arr[index] != -1) {
+			index = (index + 1) % size;
+
+			if (index == key) {
+				cout << "Hash table is full" << endl;
+				return 0;
+			}
+		}
+
+		this->arr[index] = value;
+
+		return 1;
+	}
+	int del(int val) {
+
+		int key = val % size;
+		int index = key;
+
+		while (arr[index] != val) {
+
+			index = (index + 1) % size;
+
+			if (index == key) {
+				return 0;
+			}
+		}
+		arr[index] = -1;
+
+		return 1;
+	}
+
+};
+
+int main(void) {
+	//0,1,2,3,4,5
+	Hashing h;
+	if (h.insert(0) == 1) {
+		cout << "Value 0 is inserted" << endl;
+	}
+	if (h.insert(1) == 1) {
+		cout << "Value 1 is inserted" << endl;
+	}
+	if (h.insert(2) == 1) {
+		cout << "Value 2 is inserted" << endl;
+	}
+	if (h.insert(3) == 1) {
+		cout << "Value 10 is inserted" << endl;
+	}
+	if (h.insert(4) == 1) {
+		cout << "Value 2 is inserted" << endl;
+	}
+	if (h.insert(5) == 1) {
+		cout << "Value 3 is inserted" << endl;
+	}
+
+	///deletion
+	if (h.del(4) == 1) {
+		cout << "4 is del" << endl;
+	}
+
+
+
+
+	return 0;
+}

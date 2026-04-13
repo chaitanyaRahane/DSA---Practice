@@ -1,0 +1,110 @@
+#include<iostream>
+#define v 2
+using namespace std;
+//adjaceny list = using neighbours
+
+class Node {
+public:
+	int data;
+	Node* next;
+};
+class Adjlist {
+	Node* adjList[v];
+
+public:
+	Adjlist() {
+
+		for (int i = 0; i < v; i++)
+			adjList[i] = NULL;
+	}
+	void addedge(int src,int des) {
+
+		Node* newNode = new Node();
+		newNode->data = des;
+		newNode->next = nullptr;
+
+		if (adjList[src] == NULL) {
+			adjList[src] = newNode;
+		}
+		else {
+			Node* last = adjList[src];
+
+			while (last->next != nullptr) {
+				last = last->next;
+			}
+			
+			last->next = newNode;
+		}
+
+	}
+	void printGraph() {
+
+		for (int i = 0; i < v; i++)
+		{
+			Node*  temp = this->adjList[i];
+
+			cout << "this->adjList["<<i<<"]->";
+
+			while (temp != nullptr) {
+				cout << temp->data << "->";
+				temp = temp->next;
+			}
+			cout << "NULL" << endl;
+		}
+	}
+	void removeEdge(int src, int dest) {
+
+		if (adjList[src] == NULL) {
+			return;
+		}
+
+		if (adjList[src]->data == dest) {
+			Node* temp = adjList[src];
+
+		}
+		else {
+			Node* current = adjList[src];
+			Node* temp = nullptr;
+
+			while (current->next != nullptr) {
+
+				if (current->next->data == dest)
+				{
+					temp = current->next;
+					current->next = temp->next;
+					delete temp;
+					break;
+				}
+				else {
+					current = current->next;
+				}
+			}
+		}
+	}
+	void addEdgesForUndirected(int src, int dest) {
+		Node* newNode = new Node();
+		newNode->data = dest;
+
+		newNode->next = adjList[src];
+		adjList[src] = newNode;
+
+		newNode = new Node();
+		newNode->data = src;
+
+		newNode->next = adjList[dest];
+		adjList[dest] = newNode;
+	}
+};
+int main(void) {
+
+	Adjlist adlist;
+	/*adlist.addedge(0,1);
+	adlist.addedge(0,2);
+
+	adlist.addedge(1,3);
+	adlist.addedge(1,4);
+	adlist.removeEdge(0, 2);
+	adlist.printGraph();*/
+	adlist.addEdgesForUndirected(0, 1);
+	return 0;
+}

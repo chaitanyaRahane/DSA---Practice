@@ -1,0 +1,58 @@
+#include<iostream>
+#define vertices 5
+using namespace std;
+//graph == vertices and edges
+//undirected graph
+//in-degree and out-degree
+
+//Representation of graphs
+//1).adjacency matrix = 2D matrix adj[0][1] = 1 for example
+//2).adjacency list
+
+void init(int arr[vertices][vertices]) {
+
+	int i, j;
+
+	for (i = 0; i < vertices; i++) {
+		for (j = 0; j < vertices; j++) {
+			arr[i][j] = 0;
+		}
+	}
+}
+void addedge(int adj[vertices][vertices], int src, int dest) {
+	adj[src][dest] = 1;
+}
+void printmatrix(int arr[][vertices]) {
+
+	int i, j;
+
+	for (i = 0; i < vertices; i++) {
+		for (j = 0; j < vertices; j++) {
+			cout << arr[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+}
+int main(void) {
+
+	int adj[vertices][vertices] = {};
+	init(adj);
+
+	addedge(adj, 0, 1);
+	addedge(adj, 0, 2);
+	addedge(adj, 0, 3);
+
+	addedge(adj, 1, 3);
+	addedge(adj, 1, 4);
+
+	addedge(adj, 2, 3);
+
+	addedge(adj, 3, 4);
+
+	printmatrix(adj);
+
+
+	return 0;
+}
+

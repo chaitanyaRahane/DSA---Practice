@@ -1,0 +1,64 @@
+#include<iostream>
+#define size 5
+using namespace std;
+//circular queue 
+//when we deque from a linear queue the space is wasted after removing elements
+
+int arr[size];
+int rear = -1;
+int front = -1;
+bool isQueueFull();
+
+void enqueue(int val) {
+
+	if (isQueueFull()) {
+		cout << "Circular queue is full" << endl;
+	}
+	else {
+		if (front == -1) {
+			front = 0;
+		}
+
+		rear = (rear + 1) % size;
+		arr[rear] = val;
+	}
+}
+bool isQueueFull() {
+	if (front == 0 && rear == size - 1) {
+		return true;
+	}
+	if (rear == front - 1) {
+		return true;
+	}
+
+	return false;
+}
+int dequeue() {
+
+	if (front == -1) {
+		return -1;
+	}
+	else {
+		int val = arr[front];
+
+		if (front == rear) {
+			front = -1;
+			rear = -1;
+		}
+		else {
+			front = (front + 1) % size;
+		}
+
+		return val;
+	}
+
+}
+int main(void) {
+
+	enqueue(1);
+	enqueue(2);
+	enqueue(3);
+	cout << dequeue() << endl;
+
+	return 0;
+}

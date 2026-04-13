@@ -1,0 +1,67 @@
+#include<iostream>
+
+using namespace std;
+//Binary heap (priority queue) also complete binary tree
+//min heap = every parent node is less the its child nodes
+//max heap = every parent node is greater than its child nodes
+
+//this is a max heap implementaion
+class binaryheap {
+public:
+	void buildHeap(int arr[], int size) {
+		//this is used for bottom up traversal of tree
+		for (int i = size / 2 - 1; i >= 0; i--) {
+			heapify(arr, i, size);
+		}
+	}
+	void swap(int arr1[], int arr2[]) {
+		int temp = *arr1;
+		*arr1 = *arr2;
+		*arr2 = temp;
+	}
+	void heapify(int arr[], int index, int size) {
+
+		int left = 2 * index + 1; //these are used to create the left and right node of tree
+		int right = 2 * index + 2;
+
+		int max = index;
+
+		if (left < size && arr[left] > arr[max]) {
+			max = left;
+		}
+		if (right < size && arr[right] > arr[max]) {
+			max = right;
+		}
+
+		if (max != index) {
+			swap(&arr[max], &arr[index]);
+			heapify(arr, max, size);
+		}	
+
+	}
+	void print(int arr[], int size)
+	{
+		for (int i = 0; i < size; i++)
+			cout << arr[i] << " ";
+
+		cout << endl;
+	}
+	void deleteMax(int arr[], int size) {
+		swap(&arr[0], &arr[size]);
+		size = size - 1;
+		heapify(arr, 0, size);
+	}
+};
+
+int main(void) {
+
+	binaryheap b;
+	int arr[] = { 10,20,30,40,50,60,70};
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	b.buildHeap(arr, size);
+//	b.deleteMax(arr, size);
+	b.print(arr, size);
+
+	return 0;
+}

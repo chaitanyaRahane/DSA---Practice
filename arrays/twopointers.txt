@@ -1,0 +1,91 @@
+#include<iostream>
+
+using namespace std;
+
+int hasAPairWithTarger(int arr[], int size, int target) {
+
+	int start = 0;
+	int end = size - 1;
+
+	while (start < end) {
+
+		int sum = arr[start] + arr[end];
+
+		if (sum == target) {
+			return 1;
+		}
+
+		if (sum < target) {
+			start++;
+		}
+		else {
+			end--;
+		}
+	}
+	return 0;
+}
+int removeElement(int arr[], int size, int val) {
+
+	int newlen = 0;
+
+	for (int i = 0; i < size; i++) {
+
+		if (arr[i] != val) {
+			arr[newlen] = arr[i];
+			newlen++;
+		}
+	}
+
+	return newlen;
+}
+//move zeros at the end of the array
+void moveZeros(int arr[], int size) {
+
+	int newlen = 0;
+	for (int i = 0; i < size; i++) {
+		if (arr[i] == 1) {
+			arr[newlen] = arr[i];
+			newlen++;
+		}
+	}
+	//this for the zeros
+	while (newlen < size) {
+		arr[newlen] = 0;
+		newlen++;
+	}
+
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << endl;
+	}
+
+}
+int removeDuplicates(int arr[], int size) {
+
+	int len = 0;
+
+	for (int i = 0; i < size - 1; i++) {
+		if (arr[i] != arr[i + 1]) {
+			arr[len] = arr[i];
+			len++;
+		}
+	}
+	arr[len] = arr[size - 1];
+	len++;
+
+	return len;
+}
+int main(void) {
+
+	int arr[] = { 1,2,3,4 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	//cout << hasAPairWithTarger(arr, size, 6) << endl;
+	//cout << removeElement(arr, size, 4) << endl;
+
+	int arr2[] = {0,0,0,0,0,1,1};
+	moveZeros(arr2, 7);
+
+	int arr3[] = { 1,1,2,3,4,6,6 };
+	removeDuplicates(arr3, 7);
+
+	return 0;
+}
