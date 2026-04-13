@@ -1,0 +1,76 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+//single responsibility principle
+//shape class/ interface only defines calculateare(), which mean it has a single resposibility
+
+class shape {
+
+public:
+	virtual double calculateArea() const = 0;
+	virtual ~shape() = default;
+};
+
+// 2. Open/Closed Principle (OCP)
+//so circle and rectangle extend shape without changing shape class no modifications.
+class circle :public shape {
+	double radius;
+
+public:
+	circle(double radius) {
+		this->radius = radius;
+	}
+
+	double calculateArea() const override {
+		return 3.14 * radius * radius;
+	}
+
+	virtual ~circle() = default;
+};
+class Rectangle : public shape {
+	double width, height;
+public:
+	Rectangle(double w, double h) : width(w), height(h) {}
+	double calculateArea() const override {
+		return width * height;
+	}
+};
+// 3. Liskov Substitution Principle (LSP)
+// ShapeDisplay uses Shape references, and any derived class (Circle, Rectangle) can be used without issues.
+class ShapeDisplay {
+public:
+	// 4. Interface Segregation Principle (ISP)
+	// ShapeDisplay depends only on the Shape interface, not on unrelated methods.
+	void displayArea(const shape& shape) const {
+		std::cout << "Area: " << shape.calculateArea() << "\n";
+	}
+};
+// 5. Dependency Inversion Principle (DIP)
+// ShapeManager depends on the Shape abstraction, not concrete classes.
+class ShapeManager {
+	std::vector<std::unique_ptr<shape>> shapes;
+public:
+	void addShape(std::unique_ptr<shape> shape) {
+		shapes.push_back(std::move(shape));
+	}
+
+	void displayAllAreas(const ShapeDisplay& display) const {
+		for (const auto& shape : shapes) {
+			display.displayArea(*shape);
+		}
+	}
+};
+int main(void) {
+
+	ShapeManager manager;
+	ShapeDisplay display;
+
+	// Adding shapes (OCP: extend by adding new shapes)
+	manager.addShape(std::make_unique<circle>(5.0));
+	manager.addShape(std::make_unique<Rectangle>(4.0, 6.0));
+
+	// Displaying areas (LSP: works with any Shape subtype)
+	manager.displayAllAreas(display);
+	return 0;
+}
