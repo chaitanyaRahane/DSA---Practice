@@ -1,0 +1,151 @@
+#include<iostream>
+
+using namespace std;
+
+class Node {
+public:
+	Node* next;
+	Node* prev;
+	int data;
+
+
+	Node(int data) {
+		next = nullptr;
+		prev = nullptr;
+		this->data = data;
+	}
+};
+class dlist {
+	Node* head;
+	Node* tail;
+	int len;
+public:
+	dlist(int data) {
+		Node* newNode = new Node(data);
+		head = newNode;
+		tail = newNode;
+		len = 1;
+	}
+
+	~dlist() {
+		Node* temp = head;
+		while (temp) {
+			head = head->next;
+			delete temp;
+			temp = head;
+		}
+	}
+
+	void Append(int data) {
+		Node* newNode = new Node(data);
+		if (len == 0) {
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			tail->next = newNode;
+			newNode->prev = tail;
+			tail = newNode;
+		}
+		len++;
+	}
+	void prepend(int data) {
+		Node* newNode = new Node(data);
+		if (len == 0) {
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			newNode->next = head;
+			newNode->prev = newNode;
+			head = newNode;
+		}
+		len++;
+	}
+	void display() {
+		Node* temp = head;
+		while (temp) {
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+	}
+	void insertAtIndex(int index,int data) {
+		if (index < 0 || index > len) {
+			cout << "Ïnvalid" << endl;
+			return;
+		}
+		if (index == 0) {
+			prepend(data);
+			return;
+		}
+		if (index == len) {
+			Append(data);
+			return;
+		}
+
+		Node* newNode = new Node(data);
+		Node* temp = head;
+
+		for (int i = 0; i < index - 1; i++) {
+			temp = temp->next;
+		}
+
+		Node* after = temp->next;
+		temp->next = newNode;
+
+		newNode->prev = temp;
+		newNode->next = after;
+
+		if(after != nullptr) {
+			after->prev = newNode;
+		}
+		len++;
+	}
+	void deleteFirst() {
+		if (len == 0) {
+			return;
+		}
+
+		if (len == 1)
+		{
+			head = nullptr;
+			tail = nullptr;
+		}
+		else {
+			head = head->next;
+			head->prev = nullptr;
+		}
+		len--;
+	}
+	void deleteLast() {
+		if (len == 0) {
+			return;
+		}
+		if (len == 1)
+		{
+			head = nullptr;
+			tail = nullptr;
+		}
+		else {
+			tail = tail->prev;
+			tail->next = nullptr;
+		}
+		len--;
+	}
+
+};
+
+
+int main(void) {
+	dlist* l = new dlist(1);
+	l->Append(2);
+	l->prepend(0);
+
+	l->insertAtIndex(1,5);
+	//l->deleteFirst();
+	l->deleteLast();
+
+	l->display();
+
+	return 0;
+}
