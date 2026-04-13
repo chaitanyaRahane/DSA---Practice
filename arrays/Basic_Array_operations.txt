@@ -1,0 +1,65 @@
+#include<iostream>
+#include<unordered_set>
+using namespace std;
+
+int secoundLargest(const int* ptr, int size) {
+	int largest = 0;
+	int	second = 0;
+
+	for (int i = 0; i < size; i++) {
+		
+		if (ptr[i] > largest) {
+			second = largest;
+			largest = ptr[i];
+		}
+		else if (ptr[i] > second && ptr[i] != largest) {
+			second = ptr[i];
+		}
+	}
+
+	return second;
+}
+void swapArr(int &arr1, int &arr2) {
+	int temp = arr1;
+	arr1 = arr2;
+	arr2 = temp;
+}
+void reverseAnArrayInPlace(int arr[],int size) {
+	int i = 0;
+	int j = size - 1;
+
+	while (i < j) {
+		swapArr(arr[i], arr[j]);
+		i++;
+		j--;
+	}
+	
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << endl;
+	}
+}
+bool duplicateValues(const vector<int>& arr) {
+	unordered_set<int> seen;
+
+	for (int var : arr) {
+		if (seen.count(var)) {
+			return true;
+		}
+		seen.insert(var);
+	}
+
+	return false;
+}
+int main(void) {
+	int arr[] = { 10, 10, 5, 3 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+
+	//int result = secoundLargest(arr, size);
+	//cout << result << endl;
+
+	reverseAnArrayInPlace(arr, size);
+
+	return 0;
+}
+
+

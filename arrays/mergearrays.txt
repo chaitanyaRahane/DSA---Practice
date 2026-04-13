@@ -1,0 +1,37 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void mergeSortedArrays(vector<int> arr1,vector<int> arr2) {
+	int i = 0, j = 0;
+	vector<int> arr = {};
+
+	while (i < arr1.size() && j < arr2.size()) {
+		if (arr1[i] < arr2[j]) {
+			arr.push_back(arr1[i]);
+			i++;
+		}
+		else {
+			arr.push_back(arr2[j]);
+			j++;
+		}
+	}
+
+	while (i < arr1.size()) 
+		arr.push_back(arr1[i++]);
+
+	while (j < arr2.size()) 
+		arr.push_back(arr2[j++]);
+
+	for (auto i : arr) {
+		cout << i << endl;
+	}
+}
+int main(void) {
+	vector<int> arr2 = { 1,2,3,4,5 };
+	vector<int> arr1 = { 5,6,7,8,9 };
+
+	mergeSortedArrays(arr1, arr2);
+
+	return 0;
+}
