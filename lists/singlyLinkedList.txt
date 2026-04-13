@@ -1,0 +1,166 @@
+
+#include<iostream>
+
+using namespace std;
+
+//“How do you check if two line segments intersect ? ”
+//“How would you rotate a point in 3D space ? ”
+//“Find distance between point and plane.”
+
+//Spatial indexing
+//Efficient geometric queries
+class Node {
+public:
+	int data;
+	Node* next;
+};
+class linkedlist {
+	Node* head;
+public:
+	linkedlist(int data) {
+		head = new Node();
+		head->data = data;
+		head->next = nullptr;
+	}
+
+	void append(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+		newNode->next = head;
+		head = newNode;
+	}
+
+	void display() {
+		Node* temp = head;
+		while (temp != nullptr) {
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+	}
+	void prepend(int data) {
+		Node* newNodee = new Node();
+		newNodee->data = data;
+		newNodee->next = nullptr;
+
+		if (head == nullptr) {
+			head = newNodee;
+		}
+		else {
+			Node* lastNode = head;
+
+			while (lastNode->next != nullptr) {
+				lastNode = lastNode->next;
+			}
+
+			lastNode->next = newNodee;
+		}
+	}
+	bool seearch(int key) {
+		Node* temp = head;
+
+		while (temp != nullptr) {
+			if (temp->data == key) {
+				return true;
+			}
+			temp = temp->next;
+		}
+
+		return false;
+	}
+	void deleteele(int key) {
+
+		Node* temp = head;
+		if (head->data == key) {
+			head = head->next;
+			delete temp;
+		}
+		else {
+			Node* current = head;
+
+			while (current->next != nullptr) {
+				if (current->next->data == key) {
+					Node* temp = current->next;
+					current->next = current->next->next;
+					delete temp;
+				}
+				else {
+					current = current->next;
+				}
+			}
+		}
+	}
+	void reverse() {
+		Node* perv = nullptr;
+		Node* current = head;
+		Node* next = nullptr;
+		//1,2,3
+		while (current != nullptr)
+		{
+			next = current->next; //1
+			current->next = perv; //null
+			perv = current; //0
+			current = next;//1
+		}
+		head = perv;
+	}
+	void createCycle() {
+		if (head == nullptr || head->next == nullptr)
+			return;
+
+		Node* temp = head;
+		Node* last = head;
+
+		while (last->next != nullptr) {
+			last = last->next;
+		}
+		last->next = temp->next;
+	}
+	bool detectcycle() {
+		Node* slow = head;
+		Node* fast = head;
+
+		while (fast != nullptr && fast->next != nullptr) {
+			slow = slow->next;
+			fast = fast->next->next;
+
+			if (slow == fast) {
+				return true;
+			}
+		}
+		return false;
+	}
+	Node* middleNode() {
+		Node* slow = head;
+		Node* fast = head;
+
+		while (fast != nullptr && fast->next != nullptr) {
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+
+		return slow;
+
+	}
+
+
+};
+
+int main(void) {
+	//1,2,3,4,5
+	linkedlist* lt = new linkedlist(2);
+	lt->append(1);
+	lt->prepend(3);
+	lt->prepend(4);
+	lt->prepend(5);
+	//	lt->reverse();
+	cout << lt->middleNode()->data << endl;
+	lt->display();
+
+	//lt->deleteele(3);
+	cout << endl;
+	//lt->display();
+	//	cout << lt->seearch(3) << endl;
+
+
+	return 0;
+}

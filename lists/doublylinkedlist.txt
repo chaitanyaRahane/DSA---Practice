@@ -1,0 +1,126 @@
+#include<iostream>
+
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+	Node* prev;
+};
+class linkedlist {
+	Node* head;
+	Node* tail;
+
+public:
+	linkedlist(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+		head = newNode;
+		tail = newNode;
+	}
+	void display(void) {
+		Node* temp = head;
+		while (temp != nullptr) {
+			cout << temp->data << endl;
+			temp = temp->next;
+		}
+	}
+	void displayfromlast(void) {
+		Node* temp = tail;
+		while (temp != nullptr) {
+			cout << temp->data << endl;
+			temp = temp->prev;
+		}
+	}
+	void prepend(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+
+		if (head == nullptr) {
+			newNode->next = nullptr;
+			newNode->prev = nullptr;
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			newNode->prev = nullptr;
+			newNode->next = head;
+			head->prev = newNode;
+			head = newNode;
+		}
+	}
+	void addLast(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+		
+		if (head == nullptr) {
+			newNode->next = nullptr;
+			newNode->prev = nullptr;
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			tail->next = newNode;
+			newNode->prev = tail;
+			tail = newNode;
+		}
+	}
+	bool search(int key) {
+		Node* temp = head;
+
+		while (temp != nullptr) {
+			if (temp->data == key) {
+				return true;
+			}
+			temp = temp->next;
+		}
+		return false;
+	}
+
+	void deletevalue(int key) {
+		if (head == nullptr) {
+			return;
+		}
+
+		Node* temp = head;
+
+		while (temp != nullptr && temp->data != key) {
+			temp = temp->next;
+		}
+
+		if (temp == nullptr) {
+			cout << "key not found" << endl;
+		}
+		else if(temp== head)
+		{
+			head = head->next;
+			head->prev = nullptr;
+			delete temp;
+		}
+		else if (temp->next == nullptr) {
+			temp->prev->next = nullptr;
+			delete temp;
+		}
+		else {
+			temp->prev->next = temp->next;
+			temp->next->prev = temp->prev;
+			delete temp;
+		}
+	}
+};
+
+int main(void) {
+
+	linkedlist* lt = new linkedlist(1);
+	lt->prepend(2);
+	lt->addLast(3);
+	lt->addLast(4);
+	lt->addLast(5);
+	lt->deletevalue(4);
+
+	lt->display();
+
+	cout << lt->search(3) << endl;
+	return 0;
+}

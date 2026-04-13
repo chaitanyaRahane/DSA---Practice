@@ -1,0 +1,121 @@
+#include<iostream>
+
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+};
+class Linkedlist {
+	Node* head;
+	Node* tails;
+
+public:
+	Linkedlist(int data){
+		Node* newNode = new Node();
+		newNode->data = data;
+		head = newNode;
+		tails = newNode;
+		newNode->next = newNode;
+	}
+	void display() {
+
+		Node* temp = head;
+
+		do {
+			cout << temp->data << endl;
+			temp = temp->next;
+		} while (temp != head);
+
+	}
+	void prepend(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+
+		if (head == nullptr) {
+			newNode = newNode->next;
+			head = newNode;
+		}
+		else {
+			Node* last = head;
+			while (last->next != head) {
+				last = last->next;
+			}
+			last->next = newNode;
+			newNode->next = head;
+			head = newNode;
+		}
+	}
+	void append(int data) {
+		Node* newNode = new Node();
+		newNode->data = data;
+
+		if (head == nullptr) {
+			newNode = newNode->next;
+			head = newNode;
+		}
+		else {
+			Node* last = head;
+			while (last->next != head) {
+				last = last->next;
+			}
+			last->next = newNode;
+			newNode->next = head;
+		}
+	}
+	bool search(int key) {
+		if (head == nullptr) {
+			return false;
+		}
+
+		Node* temp = head;
+
+		do {
+			if (temp->data == key) {
+				return true;
+			}
+		} while (temp != head);
+
+		return false;
+	}
+	void deleteele(int key) {
+		if (head == nullptr)
+			return;
+
+		if (head->data == key && head->next == head) {
+			head = nullptr;
+		}
+		else if(head->data == key){
+			Node* last = head;
+			while (last->next != head) {
+				last = last->next;
+			}
+			last->next = head->next;
+			head = head->next;
+		}
+		else {
+			Node* current = head;
+			while (current->next != head) {
+				if (current->next->data == key) {
+					current->next = current->next->next;
+					break;
+				}
+				current = current->next;
+			}
+		}
+	}
+};
+
+int main(void) {
+	Linkedlist* lt = new Linkedlist(1);
+	lt->prepend(0);
+	lt->append(2);
+	lt->append(3);
+	lt->deleteele(2);
+	lt->display();
+	cout << lt->search(4) << endl;
+
+
+	return 0;
+}
