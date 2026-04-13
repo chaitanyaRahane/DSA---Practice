@@ -1,0 +1,41 @@
+#include<iostream>
+#include<list>
+using namespace std;
+
+const int table_size = 10;
+
+list<pair<string, int>> hashMap[10];
+
+//This method will provide the index or key to store the value
+int hashfunction(const string& name) {
+	int sumofchar = 0;
+
+	for (char ch : name) {
+		sumofchar += static_cast<int>(ch);
+	}
+
+	return sumofchar % table_size;
+}
+void insert(const string& key,int value) {
+	int index = hashfunction(key);
+
+	//update if already exits
+	for (auto& pair : hashMap[index]) {
+		if (pair.first == key) {
+			pair.second = value;
+			return;
+		}
+	}
+	//else insert a new pair
+	hashMap[index].push_back({ key,value });
+}
+
+int main(void) {
+
+	insert("Chaitanya", 25);
+	insert("rahul", 30);
+	insert("hmm", 10);
+	insert("mmh", 15);
+
+	return 0;
+}

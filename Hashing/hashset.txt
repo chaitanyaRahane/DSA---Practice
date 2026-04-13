@@ -1,0 +1,72 @@
+#include<iostream>
+#include<list>
+#include<vector>
+
+// code for hash set
+
+using namespace std;
+
+const int table_size = 10;
+list<string> my_hash[10];
+
+int hashfunction(const string& value) {
+	int sumofchar = 0;
+
+	for (char ch : value) {
+		sumofchar += static_cast<int>(ch);
+	}
+
+	return sumofchar % table_size;
+}
+
+void insert(const string& name) {
+	int index = hashfunction(name);
+
+	for (const string& str : my_hash[index]) {
+		if (str == name) {
+			return;
+		}
+	}
+
+	my_hash[index].push_back(name);
+}
+
+bool contains(const string& name) {
+	int index = hashfunction(name);
+	for (const string& str : my_hash[index]) {
+		if (str == name) {
+			return true;
+		}
+	}
+
+	return false;
+}
+void display() {
+	for (int i = 0; i < 10; i++) {
+		cout << i << ": ";
+		for (const auto& name : my_hash[i]) {
+			cout << name << " -> ";
+		}
+		cout << "NULL\n";
+	}
+}
+
+int main(void) {
+
+	insert("Chaitanya");
+	insert("Chaitanya");
+	insert("rahul");
+	insert("hmm");
+	insert("mmh");
+	insert("Bob");
+	insert("Lisa");
+	insert("Siri");
+	insert("Pete");
+
+	display();
+
+	cout << boolalpha << "Is 'rahul' in the set? " << contains("rahul") << endl;
+	cout << "Is 'alex' in the set? " << contains("alex") << endl;
+	
+	return 0;
+}
